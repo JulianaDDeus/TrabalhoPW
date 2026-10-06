@@ -86,7 +86,7 @@ try {
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-3 col-md-2">
-                    <a href="movies" class="btn btn-light">
+                    <a href="users" class="btn btn-light">
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <i class="fa fa-user-lock fa-5x"></i>
