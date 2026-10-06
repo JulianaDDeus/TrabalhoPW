@@ -4,74 +4,47 @@
   include HEADER_TEMPLATE;
   ?>
 
-<h2>Atualizar Cliente</h2>
+<h2>Atualizar Usuário</h2>
 
-<form action="edit.php?id=<?php echo $customer['id']; ?>" method="post">
+<form action="edit.php?id=<?php echo $usuario['id']; ?>" method="post" enctype="multipart/form-data">
   <!-- area de campos do form -->
   <hr>
   <div class="row">
-    <div class="form-group col-md-7">
-      <label for="name">Nome / Razão Social</label>
-      <input type="text" class="form-control" id="name" name="customer[name]" value="<?php echo $customer['name']; ?>">
-    </div>
-
-    <div class="form-group col-md-3">
-      <label for="cpf_cnpj">CNPJ / CPF</label>
-      <input type="text" class="form-control" id="cpf_cnpj" name="customer[cpf_cnpj]" value="<?php echo $customer['cpf_cnpj']; ?>">
-    </div>
-
-    <div class="form-group col-md-2">
-      <label for="birthdate">Data de Nascimento</label>
-      <input type="date" class="form-control" id="birthdate" name="customer[birthdate]" value="<?php echo formatadata($customer['birthdate'], "Y-m-d"); ?>">
+    <div class="form-group col-md-8">
+      <label for="name">Nome</label>
+      <input type="text" class="form-control" name="usuario[nome]" value="<?php echo $usuario['nome']; ?>">
     </div>
   </div>
   
   <div class="row">
-    <div class="form-group col-md-5">
-      <label for="address">Endereço</label>
-      <input type="text" class="form-control" id="address" name="customer[address]" value="<?php echo $customer['address']; ?>">
-    </div>
-
-    <div class="form-group col-md-3">
-      <label for="hood">Bairro</label>
-      <input type="text" class="form-control" id="hood" name="customer[hood]" value="<?php echo $customer['hood']; ?>">
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label for="zip_code">CEP</label>
-      <input type="text" class="form-control" id="zip_code" name="customer[zip_code]" maxlength="8" value="<?php echo $customer['zip_code']; ?>">
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label for="created">Data de Cadastro</label>
-      <input type="date" class="form-control" id="created" name="customer[created]" value="<?php echo formatadata($customer['created'], "Y-m-d"); ?>" disabled>
+    <div class="form-group col-md-4">
+      <label for="campo2">Usuário (Login)</label>
+      <input type="text" class="form-control" name="usuario[user]" value="<?php echo $usuario['user']; ?>">
     </div>
   </div>
   
   <div class="row">
-    <div class="form-group col-md-5">
-      <label for="city">Município</label>
-      <input type="text" class="form-control" id="city" name="customer[city]" value="<?php echo $customer['city']; ?>">
+    <div class="form-group col-md-4">
+      <label for="campo3">Senha</label>
+      <input type="password" class="form-control" name="usuario[password]" value="">
     </div>
-    
+  </div>
+  <div class="row">
+    <?php 
+      $foto = "";
+      if(empty($usuario['foto'])){
+        $foto = "semimagem.jpg";
+      } else{
+        $foto = $usuario['foto'];
+      }
+    ?>
+    <div class="form-group col-md-4">
+      <label for="campo1">Foto</label>
+      <input type="file" class="form-control" id="foto" name="foto" value="fotos/<?php echo $foto ?>">
+    </div>
     <div class="form-group col-md-2">
-      <label for="phone">Telefone</label>
-      <input type="text" class="form-control" id="phone" name="customer[phone]" maxlength="11" value="<?php echo $customer['phone']; ?>">
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label for="mobile">Celular</label>
-      <input type="text" class="form-control" id="mobile" name="customer[mobile]" maxlength="11" value="<?php echo $customer['mobile']; ?>">
-    </div>
-    
-    <div class="form-group col-md-1">
-      <label for="state">UF</label>
-      <input type="text" class="form-control" id="state" name="customer[state]" value="<?php echo $customer['state']; ?>">
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label for="ie">Inscrição Estadual</label>
-      <input type="text" class="form-control" id="ie" name="customer[ie]" value="<?php echo $customer['ie']; ?>">
+      <label for="pre">Pré-visualização</label>
+      <img class="form-control shadow p-2 mb-2 bg-body rounded" id="imgPreview" src="fotos/<?php echo $foto ?>" alt="Foto do usuário">
     </div>
   </div>
   
@@ -84,3 +57,17 @@
 </form>
 
 <?php include(FOOTER_TEMPLATE); ?>
+<script>
+  $(document).ready(() => {
+    $("#foto").change(function (){
+      const file = this.files[0];
+      if(file){
+        let reader = new FileReader();
+        reader.onload = function (event){
+          $("#imgPreview").attr("src", event.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    })
+  })
+</script>

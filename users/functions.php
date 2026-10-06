@@ -3,9 +3,59 @@ ob_start();
 include "../config.php";
 include DBAPI;
 
-$customers = null;
-$customer = null;
+$usuarios = null;
+$usuario = null;
 
+function index(){
+  global $usuarios;
+  if(!empty($_POST['users'])){
+    $usuario = filter("usuarios", "nome like '%" . $_POST['users'] . "%'");
+  } else{
+    $usuarios = find_all("usuarios");
+  }
+}
+
+function upload($pasta_destino, $arquivo_destino, $tipo_arquivo, $nome_temp, $tamanho_arquivo){
+  try{
+    $nomearquivo = basename($arquivo_destino);
+    $uploadOk = 1;
+    if(isset($_POST["submit"])){
+      $check = getimagesize($nome_temp);
+      if($check !== false){
+        $_SESSION['message'] = "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+      } else{
+        $uploadOk = 0;
+        throw new Exception("O arquivo não é uma imagem!");
+      }
+    }
+    if(file_exists($arquivo_destino)){
+      $uploadOk = 0;
+      throw new Exception("Desculpe, o arquivo já existe!");
+    }
+    if($tamanho_arquivo > 5000000){
+      $uploadOk = 0;
+      throw new Exception("Desculpe, mas o arquivo é muito grande!");
+    }
+    if($tipo_arquivo != "jpg" && $tipo_arquivo != "png" && $tipo_arquivo != "jpeg" && $tipo_arquivo != "gif"){
+      $uploadOk = 0;
+      throw new Exception("Desculpe, mas só são permitidos arquivos de imagem JPG, JPEG, PNG e GIF!");
+    }
+    if($uploadOk == 0){
+      throw new Exception("Desculpe, mas o arquivo não pode ser enviado.");
+    } else{
+      if(move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo_destino)){
+        $_SESSION['message'] = "O arquivo " . htmlspecialchars($nomearquivo) . " foi armazenado.";
+        $_SESSION['type'] = "success";
+      }else{
+        throw new Exception("Desculpe, mas o arquivo não pode ser enviado");
+      }
+    }
+  } catch (Exception $e) {
+    $_SESSION['message'] = "Aconteceu um erro: " . $e->getMessage();
+    $_SESSION['type'] = "danger";
+  }
+}
 /**
  *  Função para formatar as datas
  */
@@ -34,8 +84,8 @@ function cep($cep){
  */
 function index()
 {
-    global $customers;
-    $customers = find_all("customers");
+    global $usuarios;
+    $usuarios = find_all("usuario$usuarios");
 }
 
 /**
@@ -43,8 +93,8 @@ function index()
  */
 function view($id = null)
 {
-    global $customer;
-    $customer = find("customers", $id);
+    global $usuario;
+    $usuario = find("usuario$usuarios", $id);
 }
 
 /**
@@ -52,16 +102,8 @@ function view($id = null)
  */
 function add() {
 
-  if (!empty($_POST['customer'])) {
-    
-    $today = new DateTime('now', new DateTimeZone("-0300"));
-
-    $customer = $_POST['customer'];
-    $customer['modified'] = $customer['created'] = $today->format("Y-m-d H:i:s");
-    
-    save('customers', $customer);
-    header("location: index.php");
-    exit;
+  if (!empty($_POST['usuario'])) {
+    //TODO continuar aqui
   }
 }
 
@@ -76,18 +118,18 @@ function edit() {
 
     $id = $_GET['id'];
 
-    if (isset($_POST['customer'])) {
+    if (isset($_POST['usuario$usuario'])) {
 
-      $customer = $_POST['customer'];
-      $customer['modified'] = $now->format("Y-m-d H:i:s");
+      $usuario = $_POST['usuario$usuario'];
+      $usuario['modified'] = $now->format("Y-m-d H:i:s");
 
-      update("customers", $id, $customer);
+      update("usuario$usuarios", $id, $usuario);
       header("location: index.php");
       exit;
     } else {
 
-      global $customer;
-      $customer = find('customers', $id);
+      global $usuario;
+      $usuario = find('usuario$usuarios', $id);
     } 
   } else {
     header('location: index.php');
@@ -100,8 +142,8 @@ function edit() {
  */
 function delete($id = null) {
 
-  global $customer;
-  $customer = remove("customers", $id);
+  global $usuario;
+  $usuario = remove("usuario$usuarios", $id);
 
   header("location: index.php");
   exit;
