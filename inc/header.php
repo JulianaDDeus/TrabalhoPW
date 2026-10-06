@@ -79,6 +79,40 @@
                             </li>
                         </ul>
                     </li>
+                    <?php if(isset($_SESSION['user'])) : ?>
+                        <?php if($_SESSION['user' == "admin"]) : ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="fa-solid fa-user-lock"></i> Usuários
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="<?php echo BASEURL; ?>usuarios/add.php">
+                                            <i class="fa-solid fa-user-tie"></i> Adicionar Usuário
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="<?php echo BASEURL; ?>usuarios">
+                                            <i class="fa-solid fa-user-lock"></i> Gerenciar Usuários
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>    
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo BASEURL; ?>inc/logout.php">
+                                Bem vindo <?php echo $_SESSION['user'] ?>! <i class="fa-solid fa-person-walking-arrow-right"></i>
+                                Desconectar
+                            </a>
+                        </li>
+                    <?php else : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo BASEURL; ?>inc/login.php">
+                                <i class="fa-solid fa-users"></i> Login
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div><!--/.navbar-collapse -->
         </div>

@@ -180,4 +180,16 @@ function remove( $table = null, $id = null ) {
 
   close_database($database);
 }
+
+function clear_messages(){
+  $_SESSION["message"] = null;
+  $_SESSION["type"] = null;
+}
+
+function criptografia($senha){
+  $custo = "08";
+  $salt = "CflfilePArKlBJomM0F6aJ";
+  $hash = crypt($senha, "$2a$" . $custo . "$" . $salt . "$");
+  return $hash;
+}
 ?>

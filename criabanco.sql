@@ -25,6 +25,13 @@ CREATE TABLE movies (
   picture varchar(30) NOT NULL,
   modified datetime NOT NULL
 );
+CREATE TABLE usuarios(
+    id int AUTO_INCREMENT not null PRIMARY KEY,
+    nome varchar(50) not null,
+    user varchar(50) not null,
+    password varchar(100) not null,
+    foto varchar(50)
+);
 
 INSERT INTO `customers` (`name`, `cpf_cnpj`, `birthdate`, `address`, `hood`, `zip_code`, `city`, `state`, `phone`, `mobile`, `ie`, `created`, `modified`) 
 VALUES ('Fulano de Tal', '123.456.789-00', '1989-01-01', 'Rua da Web, 123', 'Internet', '12345678', 'Teste', 'SP', '15 55555554', '15955555555', '123456789321', 
@@ -34,3 +41,8 @@ VALUES ('Fulano de Tal', '123.456.789-00', '1989-01-01', 'Rua da Web, 123', 'Int
 
 INSERT INTO `movies` (`title`, `director`, `year`, `created`, `picture`);
 VALUES ('Guardiões da Galáxia', 'James Gunn', '2014', '2026-09-08', 'movies\fotos\guardioesdagalaxia.jpg');
+
+INSERT INTO usuarios (nome, user, password) 
+VALUES ('Zé Lele','zelele','5243897562837456982'),
+('Mary Zica','mazi','786098767869'),
+('Fugiru Nakombi','fugina','623485634753234');
